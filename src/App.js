@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 
 function App() {
-  const [responseData, setResponseData] = useState(null)
+  const [responseData, setResponseData] = useState([])
   
   async function getAllBreeds(){
     try{
@@ -14,14 +14,14 @@ function App() {
         let arr = []
         for (const key in res.message) {
           //console.log(`${key} ${res.message[key]}`)
-          arr.push(key)
+          arr.push(res.message[key] + ' ' + key)
         }
         setResponseData(arr)
       })      
     } catch(errors){
       console.error(errors)
     }
-    
+
   }
 
   return (
