@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+
 import './App.css';
+import API from './api/API';
+import React from 'react';
+import { useState } from 'react';
+
 
 function App() {
+  const [responseData, setResponseData] = useState(null)
+  
+  async function getAllBreeds(){
+    try{
+      await API.getAllBreeds().then(res =>{
+        let arr = []
+        for (const key in res.message) {
+          //console.log(`${key} ${res.message[key]}`)
+          arr.push(key)
+        }
+        setResponseData(arr)
+      })      
+    } catch(errors){
+      console.error(errors)
+    }
+    
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="margin-me">
+      <h1> API calls</h1>
+      <div>
+        <button onClick={getAllBreeds}>Get all breeds</button>
+      </div>
+      {responseData.length ?
+      <p>
+      {responseData.map(dog => (<p key={dog}>{dog} <br></br></p>))}
+      </p>
+      :null}
     </div>
   );
 }
